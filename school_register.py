@@ -13,9 +13,10 @@ class Student:
             if (name[i] == " "):
                 self.fst_name = name[:i]
                 self.lst_name = name[i+1:]
+                
+        self.stdnt_info()
+        self.stdnt_grades()
 
-
-        print(self.stdnt_info())
         
     def stdnt_info(self):
         
@@ -78,20 +79,107 @@ class Student:
 
         
     
-        info = {"First Name": fst_name, 
+        self.info = {"First Name": fst_name, 
                 "Last Name": lst_name, 
                 "Age": age,  
                 "D.O.B.": DOB}
+
+        info = self.info
         
         print()
         print("Today's date: %s/%s/%s"  %(dt.day, dt.month, dt.year ))
         print()
         
-        return info
+        print(info)
+        
+    
+    def stdnt_grades(self):
+        """
+        Inserting student grades
+
+        Returns
+        -------
+        Updated dict. with grades 
+
+        """
+        
+        #A – 92 %
+
+        #B – 77%
+
+        #C - 58%
+
+        #D - 46%
+
+        #E - 40%
+        
+        info = self.info
+                
+        self.eng = int(input("Enter English grade (%): "))        
+        self.phy = int(input("Enter Physics grade (%): "))
+        self.math = int(input("Enter Mathematics grade (%): "))
+    
+        print()
+
+        eng = self.eng
+        phy = self.phy
+        math = self.math
+        
+        if eng or phy or math > 100:
+          raise ValueError ("Invalid Input! Value must be between 0 - 100")
+        
+        self.avg_grd = (eng + phy + math) / 3
+        avg_grd = self.avg_grd
+        
+        if eng >= 92 and eng < 101:
+            eng = "A"
+        elif eng >= 77 and eng < 92:
+            eng = "B"
+        elif eng >= 58 and eng < 77:
+            eng = "C"
+        elif eng >= 46 and eng < 58:
+            eng = "D"
+        else:
+            eng = "F"
+            
+            
+        if phy >= 92 and phy < 101:
+            phy = "A"
+        elif phy >= 77 and phy < 92:
+            phy = "B"
+        elif phy >= 58 and phy < 77:
+            phy = "C"
+        elif phy >= 46 and phy < 58:
+            phy = "D"
+        else:
+            phy = "F"
+            
+            
+        if math >= 92 and math < 101:
+            math = "A"
+        elif math >= 77 and math < 92:
+            math = "B"
+        elif math >= 58 and math < 77:
+            math = "C"
+        elif math >= 46 and math < 58:
+            math = "D"
+        else:
+            math = "F"
+
+
+        info["English"] = eng
+        info["Physics"] = phy
+        info["Mathematics"] = math
+        
+        info["Average Grade"] = avg_grd
+        
+        print(info)
+        
+    
         
 if __name__ == '__main__':
     #Student("Bobby Esema")
     #Student("James Etokebe")
     Student()
-
+    
 
