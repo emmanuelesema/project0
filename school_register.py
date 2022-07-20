@@ -125,7 +125,14 @@ class Student:
         phy = self.phy
         math = self.math
         
-        if eng or phy or math > 100:
+        #if eng or phy or math > 100:
+        if eng > 100 or eng < 0:
+          raise ValueError ("Invalid Input! Value must be between 0 - 100")
+          
+        if phy > 100 or phy < 0:
+          raise ValueError ("Invalid Input! Value must be between 0 - 100")
+          
+        if math > 100 or math < 0:
           raise ValueError ("Invalid Input! Value must be between 0 - 100")
         
         self.avg_grd = (eng + phy + math) / 3
