@@ -33,46 +33,51 @@ class Student:
         lst_name = self.lst_name
         dt = self.dt #date today
         
+        #DOB = Date of Birth
         self.DOB = input("Enter Date of Birth (dd.mm.yyyy): ")
         DOB = self.DOB
         
         for i in range(len(DOB)):
            if (DOB[i] == "."):
-               self.birth_day = (DOB[:i-3])
-               self.birth_month = (DOB[3:i])
-               self.birth_year = (DOB[i+1:])
+               self.dd   = (DOB[:i-3])
+               self.mm   = (DOB[3:i])
+               self.yy   = (DOB[i+3:])
+               self.yyyy = (DOB[i+1:])
                
 
-        birth_day = int(self.birth_day)
-        birth_month = int(self.birth_month)
-        birth_year = int(self.birth_year)
+        dd   = int(self.dd) #birth day
+        mm   = int(self.mm) #birth month
+        yy   = self.yy #birth year (last 2 digits)
+        yyyy = int(self.yyyy) #birth year
         
-        #print("dd", birth_day, "mm", birth_month, "yyyy", birth_year)
         
-        if birth_day < 1 or birth_day > 31:
+        if dd < 1 or dd > 31:
             raise ValueError ("Invalid Input! Birth month is " 
                               "less/greater than 1 or 31 respectively")
             
-        if birth_month < 1 or birth_month > 12:
+        if mm < 1 or mm > 12:
             raise ValueError ("Invalid Input! Birth month is " 
                               "less/greater than 1 or 12 respectively")
             
-        if birth_year > dt.year:
+        if yyyy > dt.year:
             raise ValueError ("Invalid Input! Birth Year is greater than current year", dt.year)
         
         
-        if birth_month < 10:
+        if mm < 10:
             #self.DOB = int("%s%s%s"  %(birth_day, birth_month, birth_year ))
-            self.DOB = int(f"{birth_day}0{birth_month}{birth_year}")
+            self.DOB = int(f"{dd}0{mm}{yyyy}")
+            self.birth_no = int(f"{dd}0{mm}{yy}")
         else:
-            self.DOB = int(f"{birth_day}{birth_month}{birth_year}")
+            self.DOB = int(f"{dd}{mm}{yyyy}")
+            self.birth_no = int(f"{dd}0{mm}{yy}")
 
-        DOB = self.DOB
+
+        DOB      = self.DOB
+        birth_no = self.birth_no
         
+        self.age = dt.year - yyyy
         
-        self.age = dt.year - birth_year
-        
-        if dt.month < birth_month or dt.month == birth_month and dt.day < birth_day:
+        if dt.month < mm or dt.month == mm and dt.day < dd:
             self.age -= 1
             
         age = self.age
@@ -82,7 +87,8 @@ class Student:
         self.info = {"First Name": fst_name, 
                 "Last Name": lst_name, 
                 "Age": age,  
-                "D.O.B.": DOB}
+                "D.O.B.": DOB,
+                "birth_no": birth_no}
 
         info = self.info
         
@@ -125,68 +131,63 @@ class Student:
         phy = self.phy
         math = self.math
         
+        sbj = [eng, phy, math] #subject grades in numbers
         #if eng or phy or math > 100:
-        if eng > 100 or eng < 0:
-          raise ValueError ("Invalid Input! Value must be between 0 - 100")
-          
-        if phy > 100 or phy < 0:
-          raise ValueError ("Invalid Input! Value must be between 0 - 100")
-          
-        if math > 100 or math < 0:
-          raise ValueError ("Invalid Input! Value must be between 0 - 100")
+        for i in sbj:
+            if i >100 or i <0:
+                raise ValueError ("Invalid Input! Value must be between 0 - 100")
+                
         
-        self.avg_grd = (eng + phy + math) / 3
+        self.avg_grd = sum(sbj) / len(sbj)
         avg_grd = self.avg_grd
         
-        if eng >= 92 and eng < 101:
-            eng = "A"
-        elif eng >= 77 and eng < 92:
-            eng = "B"
-        elif eng >= 58 and eng < 77:
-            eng = "C"
-        elif eng >= 46 and eng < 58:
-            eng = "D"
-        else:
-            eng = "F"
-            
-            
-        if phy >= 92 and phy < 101:
-            phy = "A"
-        elif phy >= 77 and phy < 92:
-            phy = "B"
-        elif phy >= 58 and phy < 77:
-            phy = "C"
-        elif phy >= 46 and phy < 58:
-            phy = "D"
-        else:
-            phy = "F"
-            
-            
-        if math >= 92 and math < 101:
-            math = "A"
-        elif math >= 77 and math < 92:
-            math = "B"
-        elif math >= 58 and math < 77:
-            math = "C"
-        elif math >= 46 and math < 58:
-            math = "D"
-        else:
-            math = "F"
 
+        sbj_grades = [] #Subject grades in letters i.e A,B,C...
 
-        info["English"] = eng
-        info["Physics"] = phy
-        info["Mathematics"] = math
+        #"""
+        for i in sbj:
+            if i >= 92 and i < 101:
+                sbj_grades.append("A")
+            elif i >= 77 and i < 92:
+                sbj_grades.append("B")
+            elif i >= 58 and i < 77:
+                sbj_grades.append("C")
+            elif i >= 46 and i < 58:
+                sbj_grades.append("D")
+            else:
+                sbj_grades.append("F")
+                #"""
+                
+            
+        info["English"] = sbj_grades[0]
+        info["Physics"] = sbj_grades[1]
+        info["Mathematics"] = sbj_grades[2]
         
         info["Average Grade"] = avg_grd
         
-        print(info)
+        #print(info)
+        ans = input("Would like to overwrite this data? (y/n) \n") 
+        if ans == "y":
+            self.overwrite()
+        else:
+            pass
+
+    def overwrite(self):
+
+        keys = [i for i in self.info.keys()]
+        values = [i for i in self.info.values()]
+
+        python_file = open("school_register.txt", "w")
         
-    
+        for i in range(len(keys)):
+            python_file.write("{: <15} {: <20} \n".format (keys[i],values[i]))
+        
+        python_file.close()
+        print("school_register.txt overwrited!")
         
 if __name__ == '__main__':
-    #Student("Bobby Esema")
-    #Student("James Etokebe")
-    Student()
-    
 
+    x = Student()
+    #print(x.math)
+
+    

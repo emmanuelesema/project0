@@ -1,0 +1,9 @@
+First Name      Emmanuel             
+Last Name       Esema                
+Age             21                   
+D.O.B.          30092001             
+birth_no        300901               
+English         A                    
+Physics         B                    
+Mathematics     C                    
+Average Grade   87.0                 
